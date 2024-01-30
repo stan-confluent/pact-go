@@ -1,5 +1,5 @@
-//go:build consumer
-// +build consumer
+//go:build pact.consumer
+// +build pact.consumer
 
 package grpc
 
@@ -14,6 +14,7 @@ import (
 	"github.com/pact-foundation/pact-go/v2/examples/grpc/routeguide"
 	"github.com/pact-foundation/pact-go/v2/log"
 	message "github.com/pact-foundation/pact-go/v2/message/v4"
+	"github.com/pact-foundation/pact-go/v2/models"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -50,10 +51,16 @@ func TestGrpcInteraction(t *testing.T) {
 	}`
 
 	err := p.AddSynchronousMessage("Route guide - GetFeature").
-		Given("feature 'Big Tree' exists").
+		GivenWithParameter(models.ProviderState{
+			Name: "feature 'Big Tree' exists",
+			Parameters: map[string]interface{}{
+				"latitude":  "180",
+				"longitude": "200",
+			},
+		}).
 		UsingPlugin(message.PluginConfig{
 			Plugin:  "protobuf",
-			Version: "0.3.8",
+			Version: "0.3.9",
 		}).
 		WithContents(grpcInteraction, "application/protobuf").
 		StartTransport("grpc", "127.0.0.1", nil). // For plugin tests, we can't assume if a transport is needed, so this is optional

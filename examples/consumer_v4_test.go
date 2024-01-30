@@ -8,13 +8,12 @@ import (
 	"testing"
 
 	"github.com/pact-foundation/pact-go/v2/consumer"
-	"github.com/pact-foundation/pact-go/v2/log"
 	"github.com/pact-foundation/pact-go/v2/models"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestConsumerV4(t *testing.T) {
-	log.SetLogLevel("TRACE")
+	// log.SetLogLevel("TRACE")
 
 	mockProvider, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "PactGoV4Consumer",

@@ -97,3 +97,14 @@ updatedeps:
 	go get -d -v -p 2 ./...
 
 .PHONY: install bin default dev test pact updatedeps clean release
+
+
+.PHONY: demo-error
+demo-error:
+	go test -v -tags=pact.consumer -count=1 ./examples/grpc/grpc_consumer_test.go
+	go test -v -timeout=30s -tags=pact.provider -count=1 ./examples/grpc/grpc_provider_test.go
+
+.PHONY: demo-no-error
+demo-no-error:
+	go test -v -tags=consumer -count=1 github.com/pact-foundation/pact-go/v2/examples -run TestConsumerV4
+	go test -v -timeout=30s -tags=provider -count=1 github.com/pact-foundation/pact-go/v2/examples -run TestV4HTTPProvider
