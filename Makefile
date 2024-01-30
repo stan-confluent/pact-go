@@ -104,6 +104,11 @@ demo-error:
 	go test -v -tags=pact.consumer -count=1 ./examples/grpc/grpc_consumer_test.go
 	go test -v -timeout=30s -tags=pact.provider -count=1 ./examples/grpc/grpc_provider_test.go
 
+.PHONY: demo-plugin
+demo-plugin:
+	go test -v -tags=consumer -count=1 ./examples/plugin/consumer_plugin_test.go
+	go test -v -timeout=30s -tags=provider -count=1 ./examples/plugin/provider_plugin_test.go
+
 .PHONY: demo-no-error
 demo-no-error:
 	go test -v -tags=consumer -count=1 github.com/pact-foundation/pact-go/v2/examples -run TestConsumerV4
