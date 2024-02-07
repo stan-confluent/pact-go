@@ -20,7 +20,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var dir, _ = os.Getwd()
+// var dir, _ = os.Getwd()
 
 func TestGrpcInteraction(t *testing.T) {
 	p, _ := message.NewSynchronousPact(message.Config{

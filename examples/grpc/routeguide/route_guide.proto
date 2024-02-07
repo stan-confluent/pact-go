@@ -77,9 +77,12 @@ message Rectangle {
 message Feature {
   // The name of the feature.
   string name = 1;
-
+  
   // The point where the feature is detected.
   Point location = 2;
+
+  // Tags of the feature. Server will put the feature name as a tag.
+  repeated string tags = 3;
 }
 
 // A RouteNote is a message sent while at a given point.
