@@ -31,6 +31,9 @@ service RouteGuide {
   // position.
   rpc GetFeature(Point) returns (Feature) {}
 
+  // Save the feature.
+  rpc SaveFeature(Feature) returns (Feature) {}
+
   // A server-to-client streaming RPC.
   //
   // Obtains the Features available within the given Rectangle.  Results are
@@ -81,8 +84,12 @@ message Feature {
   // The point where the feature is detected.
   Point location = 2;
 
+  // A description of the feature.
+  string description = 3;
+  
   // Tags of the feature. Server will put the feature name as a tag.
-  repeated string tags = 3;
+  repeated string tags = 4;
+
 }
 
 // A RouteNote is a message sent while at a given point.

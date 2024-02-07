@@ -72,6 +72,12 @@ func (s *routeGuideServer) GetFeature(ctx context.Context, point *pb.Point) (*pb
 	return &pb.Feature{Location: point}, nil
 }
 
+// SaveFeature saves the feature
+func (s *routeGuideServer) SaveFeature(ctx context.Context, feature *pb.Feature) (*pb.Feature, error) {
+	s.savedFeatures = append(s.savedFeatures, feature)
+	return feature, nil
+}
+
 // ListFeatures lists all features contained within the given bounding Rectangle.
 func (s *routeGuideServer) ListFeatures(rect *pb.Rectangle, stream pb.RouteGuide_ListFeaturesServer) error {
 	for _, feature := range s.savedFeatures {
@@ -849,5 +855,10 @@ var exampleData = []byte(`[{
         "latitude": 180,
         "longitude": 200
     },
-    "name": "Really big tree"
+    "name": "Really big tree",
+    "description": "This tree is really big"
 }]`)
+
+// My initial test had these tags on the big tree feature
+// "tags": ["big", "tree"],
+// but it fails even without them.

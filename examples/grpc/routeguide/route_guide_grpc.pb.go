@@ -34,6 +34,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	RouteGuide_GetFeature_FullMethodName   = "/routeguide.RouteGuide/GetFeature"
+	RouteGuide_SaveFeature_FullMethodName  = "/routeguide.RouteGuide/SaveFeature"
 	RouteGuide_ListFeatures_FullMethodName = "/routeguide.RouteGuide/ListFeatures"
 	RouteGuide_RecordRoute_FullMethodName  = "/routeguide.RouteGuide/RecordRoute"
 	RouteGuide_RouteChat_FullMethodName    = "/routeguide.RouteGuide/RouteChat"
@@ -50,6 +51,8 @@ type RouteGuideClient interface {
 	// A feature with an empty name is returned if there's no feature at the given
 	// position.
 	GetFeature(ctx context.Context, in *Point, opts ...grpc.CallOption) (*Feature, error)
+	// Save the feature.
+	SaveFeature(ctx context.Context, in *Feature, opts ...grpc.CallOption) (*Feature, error)
 	// A server-to-client streaming RPC.
 	//
 	// Obtains the Features available within the given Rectangle.  Results are
@@ -80,6 +83,15 @@ func NewRouteGuideClient(cc grpc.ClientConnInterface) RouteGuideClient {
 func (c *routeGuideClient) GetFeature(ctx context.Context, in *Point, opts ...grpc.CallOption) (*Feature, error) {
 	out := new(Feature)
 	err := c.cc.Invoke(ctx, RouteGuide_GetFeature_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *routeGuideClient) SaveFeature(ctx context.Context, in *Feature, opts ...grpc.CallOption) (*Feature, error) {
+	out := new(Feature)
+	err := c.cc.Invoke(ctx, RouteGuide_SaveFeature_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -194,6 +206,8 @@ type RouteGuideServer interface {
 	// A feature with an empty name is returned if there's no feature at the given
 	// position.
 	GetFeature(context.Context, *Point) (*Feature, error)
+	// Save the feature.
+	SaveFeature(context.Context, *Feature) (*Feature, error)
 	// A server-to-client streaming RPC.
 	//
 	// Obtains the Features available within the given Rectangle.  Results are
@@ -220,6 +234,9 @@ type UnimplementedRouteGuideServer struct {
 
 func (UnimplementedRouteGuideServer) GetFeature(context.Context, *Point) (*Feature, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeature not implemented")
+}
+func (UnimplementedRouteGuideServer) SaveFeature(context.Context, *Feature) (*Feature, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveFeature not implemented")
 }
 func (UnimplementedRouteGuideServer) ListFeatures(*Rectangle, RouteGuide_ListFeaturesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListFeatures not implemented")
@@ -257,6 +274,24 @@ func _RouteGuide_GetFeature_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RouteGuideServer).GetFeature(ctx, req.(*Point))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RouteGuide_SaveFeature_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Feature)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RouteGuideServer).SaveFeature(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RouteGuide_SaveFeature_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RouteGuideServer).SaveFeature(ctx, req.(*Feature))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -344,6 +379,10 @@ var RouteGuide_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFeature",
 			Handler:    _RouteGuide_GetFeature_Handler,
+		},
+		{
+			MethodName: "SaveFeature",
+			Handler:    _RouteGuide_SaveFeature_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
