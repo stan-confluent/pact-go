@@ -19,7 +19,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-// var dir, _ = os.Getwd()
+var dir, _ = os.Getwd()
 
 func TestGrpcInteraction(t *testing.T) {
 	p, _ := message.NewSynchronousPact(message.Config{
@@ -56,6 +56,7 @@ func TestGrpcInteraction(t *testing.T) {
 	}`
 
 	err := p.AddSynchronousMessage("Route guide - GetFeature").
+		// Commented out because of https://github.com/pactflow/pact-protobuf-plugin/issues/44
 		// GivenWithParameter(models.ProviderState{
 		// 	Name: "feature 'Big Tree' exists",
 		// 	Parameters: map[string]interface{}{
@@ -131,21 +132,21 @@ func TestSaveFeature(t *testing.T) {
 			"location": {
 				"latitude": "matching(number, 99)",
 				"longitude": "matching(number, 99)"
-			}
+			},
+			"tags": [
+				"matching(type, '')"
+			]
 		},
 		"response": {
 			"name": "notEmpty('A shed')",
 			"location": {
 				"latitude": "matching(number, 99)",
 				"longitude": "matching(number, 99)"
-			},
-			"tags": [
-				"matching(type, '')"
-			]
+			}
 		}
 	}`
 
-	err := p.AddSynchronousMessage("Route guide - GetFeature").
+	err := p.AddSynchronousMessage("Route guide - SaveFeature").
 		UsingPlugin(message.PluginConfig{
 			Plugin:  "protobuf",
 			Version: "0.3.11",
