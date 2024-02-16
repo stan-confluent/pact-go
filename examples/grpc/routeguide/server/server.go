@@ -38,7 +38,9 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/pact-foundation/pact-go/v2/examples/grpc/routeguide/data"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/status"
 
 	"github.com/golang/protobuf/proto"
 
@@ -69,7 +71,13 @@ func (s *routeGuideServer) GetFeature(ctx context.Context, point *pb.Point) (*pb
 		}
 	}
 	// No feature was found, return an unnamed feature
-	return &pb.Feature{Location: point}, nil
+	return nil, status.Errorf(codes.NotFound, "no feature was found at %v", point)
+}
+
+// SaveFeature saves the feature
+func (s *routeGuideServer) SaveFeature(ctx context.Context, feature *pb.Feature) (*pb.Feature, error) {
+	s.savedFeatures = append(s.savedFeatures, feature)
+	return feature, nil
 }
 
 // SaveFeature saves the feature

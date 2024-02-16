@@ -43,7 +43,7 @@ deps: download_plugins
 download_plugins:
 	@echo "--- 🐿  Installing plugins"; \
 	./scripts/install-cli.sh
-	~/.pact/bin/pact-plugin-cli -y install https://github.com/pactflow/pact-protobuf-plugin/releases/tag/v-0.3.8
+	~/.pact/bin/pact-plugin-cli -y install https://github.com/pactflow/pact-protobuf-plugin/releases/tag/v-0.3.13
 	~/.pact/bin/pact-plugin-cli -y install https://github.com/pact-foundation/pact-plugins/releases/tag/csv-plugin-0.0.1
 	~/.pact/bin/pact-plugin-cli -y install https://github.com/mefellows/pact-matt-plugin/releases/tag/v0.0.9
 	~/.pact/bin/pact-plugin-cli -y install https://github.com/austek/pact-avro-plugin/releases/tag/v0.0.3
@@ -106,8 +106,8 @@ protos:
 	cd ./examples/grpc/routeguide &&  $(PROTOC) --go_out=paths=source_relative:. \
 		--go-grpc_out=paths=source_relative:. ./route_guide.proto
 
-.PHONY: demo-error
-demo-error:
+.PHONY: grpc-test
+grpc-test:
 	rm -rf ./examples/pacts
-	go test -v -tags=pact.consumer -count=1 ./examples/grpc/grpc_consumer_test.go
-	go test -v -timeout=30s -tags=pact.provider -count=1 ./examples/grpc/grpc_provider_test.go
+	go test -v -tags=consumer -count=1 github.com/pact-foundation/pact-go/v2/examples/grpc
+	go test -v -timeout=30s -tags=provider -count=1 github.com/pact-foundation/pact-go/v2/examples/grpc

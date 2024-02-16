@@ -8,7 +8,6 @@ import (
 	"log"
 
 	"net"
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -21,8 +20,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-var dir, _ = os.Getwd()
-
 func TestGrpcProvider(t *testing.T) {
 	go startProvider()
 	// l.SetLogLevel("DEBUG")
@@ -32,7 +29,7 @@ func TestGrpcProvider(t *testing.T) {
 	err := verifier.VerifyProvider(t, provider.VerifyRequest{
 		ProviderBaseURL: "http://localhost:8222",
 		Transports: []provider.Transport{
-			provider.Transport{
+			{
 				Protocol: "grpc",
 				Port:     8222,
 			},
