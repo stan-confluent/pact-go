@@ -16,7 +16,6 @@ import (
 	"testing"
 
 	"github.com/pact-foundation/pact-go/v2/consumer"
-	"github.com/pact-foundation/pact-go/v2/models"
 
 	// "github.com/pact-foundation/pact-go/v2/matchers"
 	message "github.com/pact-foundation/pact-go/v2/message/v4"
@@ -40,12 +39,6 @@ func TestHTTPPlugin(t *testing.T) {
 	// Set up our expected interactions.
 	err = mockProvider.
 		AddInteraction().
-		GivenWithParameter(models.ProviderState{
-			Name: "the world exists",
-			Parameters: map[string]interface{}{
-				"message": "hello",
-			},
-		}).
 		UponReceiving("A request to do a matt").
 		UsingPlugin(consumer.PluginConfig{
 			Plugin:  "matt",
@@ -78,12 +71,7 @@ func TestTCPPlugin(t *testing.T) {
 	mattMessage := `{"request": {"body": "hellotcp"}, "response":{"body":"tcpworld"}}`
 
 	err := p.AddSynchronousMessage("Matt message").
-		GivenWithParameter(models.ProviderState{
-			Name: "the world exists",
-			Parameters: map[string]interface{}{
-				"message": "hellotcp",
-			},
-		}).
+		Given("the world exists").
 		UsingPlugin(message.PluginConfig{
 			Plugin:  "matt",
 			Version: "0.0.9",

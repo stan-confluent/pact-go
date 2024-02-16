@@ -80,12 +80,6 @@ func (s *routeGuideServer) SaveFeature(ctx context.Context, feature *pb.Feature)
 	return feature, nil
 }
 
-// SaveFeature saves the feature
-func (s *routeGuideServer) SaveFeature(ctx context.Context, feature *pb.Feature) (*pb.Feature, error) {
-	s.savedFeatures = append(s.savedFeatures, feature)
-	return feature, nil
-}
-
 // ListFeatures lists all features contained within the given bounding Rectangle.
 func (s *routeGuideServer) ListFeatures(rect *pb.Rectangle, stream pb.RouteGuide_ListFeaturesServer) error {
 	for _, feature := range s.savedFeatures {

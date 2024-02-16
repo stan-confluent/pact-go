@@ -26,8 +26,8 @@ var pactDir = fmt.Sprintf("%s/pacts", dir)
 var requestFilterCalled = false
 var stateHandlerCalled = false
 
-func TestV4HTTPProvider(t *testing.T) {
-	// log.SetLogLevel("TRACE")
+func TestV3HTTPProvider(t *testing.T) {
+	log.SetLogLevel("TRACE")
 	version.CheckVersion()
 
 	// Start provider API in the background
@@ -51,14 +51,13 @@ func TestV4HTTPProvider(t *testing.T) {
 	// Verify the Provider with local Pact Files
 	err := verifier.VerifyProvider(t, provider.VerifyRequest{
 		ProviderBaseURL: "http://127.0.0.1:8111",
-		Provider:        "V4Provider",
+		Provider:        "V3Provider",
 		ProviderVersion: os.Getenv("APP_SHA"),
-		// BrokerURL:       os.Getenv("PACT_BROKER_BASE_URL"),
-		// PactFiles: []string{
-		// 	filepath.ToSlash(fmt.Sprintf("%s/PactGoV3Consumer-V3Provider.json", pactDir)),
-		// 	filepath.ToSlash(fmt.Sprintf("%s/PactGoV2ConsumerMatch-V2ProviderMatch.json", pactDir)),
-		// },
-		PactDirs: []string{pactDir},
+		BrokerURL:       os.Getenv("PACT_BROKER_BASE_URL"),
+		PactFiles: []string{
+			filepath.ToSlash(fmt.Sprintf("%s/PactGoV3Consumer-V3Provider.json", pactDir)),
+			filepath.ToSlash(fmt.Sprintf("%s/PactGoV2ConsumerMatch-V2ProviderMatch.json", pactDir)),
+		},
 		ConsumerVersionSelectors: []provider.Selector{
 			&provider.ConsumerVersionSelector{
 				Tag: "master",
