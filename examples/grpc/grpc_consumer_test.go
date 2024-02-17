@@ -37,6 +37,8 @@ func TestGetFeatureSuccess(t *testing.T) {
 		"tags": [
 			"matching(type, '')"
 		],
+		or
+		"tags": "eachValue(matching(type, ''))"
 	*/
 	grpcInteraction := `{
 		"pact:proto": "` + path + `",
