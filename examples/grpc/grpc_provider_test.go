@@ -14,7 +14,7 @@ import (
 	pb "github.com/pact-foundation/pact-go/v2/examples/grpc/routeguide"
 	"github.com/pact-foundation/pact-go/v2/examples/grpc/routeguide/server"
 
-	// l "github.com/pact-foundation/pact-go/v2/log"
+	l "github.com/pact-foundation/pact-go/v2/log"
 	"github.com/pact-foundation/pact-go/v2/provider"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
@@ -22,7 +22,7 @@ import (
 
 func TestGrpcProvider(t *testing.T) {
 	go startProvider()
-	// l.SetLogLevel("DEBUG")
+	l.SetLogLevel("DEBUG")
 
 	verifier := provider.NewVerifier()
 
