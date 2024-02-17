@@ -858,9 +858,8 @@ var exampleData = []byte(`[{
         "longitude": 200
     },
     "name": "Really big tree",
-    "description": "This tree is really big"
+    "description": "This tree is really big",
+    "tags": ["big", "tree"]
 }]`)
 
-// My initial test had these tags on the big tree feature
-// "tags": ["big", "tree"],
-// but it fails even without them.
+// "tags": ["big", "tree"]

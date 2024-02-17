@@ -14,6 +14,7 @@ import (
 	"github.com/pact-foundation/pact-go/v2/examples/grpc/routeguide"
 	"github.com/pact-foundation/pact-go/v2/log"
 	message "github.com/pact-foundation/pact-go/v2/message/v4"
+	"github.com/pact-foundation/pact-go/v2/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
@@ -55,14 +56,13 @@ func TestGetFeatureSuccess(t *testing.T) {
 	}`
 
 	err := p.AddSynchronousMessage("Route guide - GetFeature").
-		// Commented out because of https://github.com/pactflow/pact-protobuf-plugin/issues/44
-		// GivenWithParameter(models.ProviderState{
-		// 	Name: "feature 'Big Tree' exists",
-		// 	Parameters: map[string]interface{}{
-		// 		"latitude":  "180",
-		// 		"longitude": "200",
-		// 	},
-		// }).
+		GivenWithParameter(models.ProviderState{
+			Name: "feature 'Big Tree' exists",
+			Parameters: map[string]interface{}{
+				"latitude":  "180",
+				"longitude": "200",
+			},
+		}).
 		UsingPlugin(message.PluginConfig{
 			Plugin:  "protobuf",
 			Version: "0.3.13",
