@@ -182,12 +182,6 @@ func TestSaveFeature(t *testing.T) {
 	dir, _ := os.Getwd()
 	path := fmt.Sprintf("%s/routeguide/route_guide.proto", dir)
 
-	/*
-		Tags are required in both the request and response; this test will fail
-		"tags": [
-			"matching(type, '')"
-		]
-	*/
 	grpcInteraction := `{
 		"pact:proto": "` + path + `",
 		"pact:proto-service": "RouteGuide/SaveFeature",
