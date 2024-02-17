@@ -1,5 +1,5 @@
-//go:build pact.provider
-// +build pact.provider
+//go:build provider
+// +build provider
 
 package grpc
 

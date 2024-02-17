@@ -1,5 +1,5 @@
-//go:build pact.consumer
-// +build pact.consumer
+//go:build consumer
+// +build consumer
 
 package grpc
 
@@ -183,10 +183,10 @@ func TestSaveFeature(t *testing.T) {
 	path := fmt.Sprintf("%s/routeguide/route_guide.proto", dir)
 
 	/*
-	Tags are required in both the request and response; this test will fail
-	"tags": [
-		"matching(type, '')"
-	]
+		Tags are required in both the request and response; this test will fail
+		"tags": [
+			"matching(type, '')"
+		]
 	*/
 	grpcInteraction := `{
 		"pact:proto": "` + path + `",
